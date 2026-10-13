@@ -1,0 +1,156 @@
+-- =========================================================================
+-- Lab Sheet 1: DDL Commands - CREATE, ALTER and DROP
+-- =========================================================================
+
+-- Create database and use it
+CREATE DATABASE CollegeDB;
+USE CollegeDB;
+
+-- 1. Create a Student table with columns: Student_ID, Name, Age, Course, and City.
+CREATE TABLE Student (
+    Student_ID INT,
+    Name VARCHAR(50),
+    Age INT,
+    Course VARCHAR(50),
+    City VARCHAR(50)
+);
+
+-- 2. Create an Employee table with Emp_ID, Emp Name, Department, and Salary.
+CREATE TABLE Employee (
+    Emp_ID INT,
+    Emp_Name VARCHAR(50),
+    Department VARCHAR(50),
+    Salary DECIMAL(10,2)
+);
+
+-- 3. Create a Department table with Dept_ID, Dept_Name, and Location.
+CREATE TABLE Department (
+    Dept_ID INT,
+    Dept_Name VARCHAR(50),
+    Location VARCHAR(50)
+);
+
+-- 4. Create a Product table with Product ID, Product Name, Price, and Quantity.
+CREATE TABLE Product (
+    Product_ID INT,
+    Product_Name VARCHAR(50),
+    Price DECIMAL(10,2),
+    Quantity INT
+);
+
+-- 5. Create a Customer table with Customer ID, Customer Name, Email, and Phone.
+CREATE TABLE Customer (
+    Customer_ID INT,
+    Customer_Name VARCHAR(50),
+    Email VARCHAR(100),
+    Phone VARCHAR(20)
+);
+
+-- 6. Create a Course table with Course_ID, Course_Name, Duration, and Fees.
+CREATE TABLE Course (
+    Course_ID INT,
+    Course_Name VARCHAR(50),
+    Duration VARCHAR(20),
+    Fees DECIMAL(10,2)
+);
+
+-- 7. Create a Faculty table with Faculty_ID, Faculty_Name, Subject, and Salary.
+CREATE TABLE Faculty (
+    Faculty_ID INT,
+    Faculty_Name VARCHAR(50),
+    Subject VARCHAR(50),
+    Salary DECIMAL(10,2)
+);
+
+-- 8. Create a Library table with Book_ID, Book_Name, Author, and Price.
+CREATE TABLE Library (
+    Book_ID INT,
+    Book_Name VARCHAR(100),
+    Author VARCHAR(50),
+    Price DECIMAL(10,2)
+);
+
+-- Drop tables before creating constraint-based versions to avoid duplicate table errors
+DROP TABLE IF EXISTS Department;
+DROP TABLE IF EXISTS Student;
+DROP TABLE IF EXISTS Employee;
+DROP TABLE IF EXISTS Product;
+
+-- 9. Create a Department table with Dept_ID as the Primary Key.
+CREATE TABLE Department (
+    Dept_ID INT PRIMARY KEY,
+    Dept_Name VARCHAR(50),
+    Location VARCHAR(50)
+);
+
+-- 10. Create a Student table with Student_ID as the Primary Key and Name as NOT NULL.
+CREATE TABLE Student (
+    Student_ID INT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Age INT,
+    Course VARCHAR(50),
+    City VARCHAR(50)
+);
+
+-- 11. Create an Employee table with a UNIQUE constraint on Email.
+CREATE TABLE Employee (
+    Emp_ID INT PRIMARY KEY,
+    Emp_Name VARCHAR(50),
+    Department VARCHAR(50),
+    Salary DECIMAL(10,2),
+    Email VARCHAR(100) UNIQUE
+);
+
+-- 12. Create a Product table with a CHECK constraint that Price > 0.
+CREATE TABLE Product (
+    Product_ID INT PRIMARY KEY,
+    Product_Name VARCHAR(50),
+    Price DECIMAL(10,2) CHECK (Price > 0),
+    Quantity INT
+);
+
+-- 13. Add a new column Email to the Student table using ALTER TABLE.
+ALTER TABLE Student ADD Email VARCHAR(100);
+
+-- 14. Add a Phone column to the Student table.
+ALTER TABLE Student ADD Phone VARCHAR(20);
+
+-- 15. Modify the datatype/size of the Name column in the Student table.
+ALTER TABLE Student MODIFY COLUMN Name VARCHAR(100);
+
+-- 16. Rename the Student table to Student Details.
+RENAME TABLE Student TO Student_Details;
+
+-- 17. Rename the column City to Address.
+ALTER TABLE Student_Details RENAME COLUMN City TO Address;
+
+-- 18. Add a Salary column to the Employee table.
+ALTER TABLE Employee ADD Salary DECIMAL(10,2);
+
+-- 19. Drop the Phone column from the Student table.
+ALTER TABLE Student_Details DROP COLUMN Phone;
+
+-- 20. Drop the Email column from the Student table.
+ALTER TABLE Student_Details DROP COLUMN Email;
+
+-- 21. Remove all records from a table using TRUNCATE.
+TRUNCATE TABLE Student_Details;
+
+-- 22. Drop the Course table from the database.
+DROP TABLE IF EXISTS Course;
+
+-- 23. Drop the Customer table from the database.
+DROP TABLE IF EXISTS Customer;
+
+-- 24. Create a complete Student table using constraints and demonstrate ALTER/DROP:
+CREATE TABLE Student (
+    Student_ID INT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Age INT CHECK (Age >= 18),
+    Course VARCHAR(50),
+    City VARCHAR(50)
+);
+
+ALTER TABLE Student ADD Status VARCHAR(20);
+ALTER TABLE Student DROP COLUMN Status;
+DROP TABLE Student;

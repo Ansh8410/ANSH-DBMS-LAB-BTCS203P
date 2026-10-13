@@ -1,0 +1,153 @@
+-- =========================================================================
+-- Lab Sheet 5: SQL Joins
+-- =========================================================================
+
+USE CollegeDB;
+
+-- =========================================================================
+-- Inner Joins
+-- =========================================================================
+
+-- INNER JOIN between Student and Department:
+SELECT * FROM Student 
+INNER JOIN Department ON Student.Dept_ID = Department.Dept_ID;
+
+-- Student names with department names using INNER JOIN:
+SELECT Student.Name, Department.Dept_Name 
+FROM Student 
+INNER JOIN Department ON Student.Dept_ID = Department.Dept_ID;
+
+-- Employee names with department names:
+SELECT Employee.Emp_Name, Department.Dept_Name 
+FROM Employee 
+INNER JOIN Department ON Employee.Department = Department.Dept_Name;
+
+-- Students with course details:
+SELECT Student.Name, Course.Course_Name, Course.Duration 
+FROM Student 
+INNER JOIN Course ON Student.Course_ID = Course.Course_ID;
+
+-- Students belonging to a particular department:
+SELECT * FROM Student 
+INNER JOIN Department ON Student.Dept_ID = Department.Dept_ID 
+WHERE Department.Dept_Name = 'Computer Science';
+
+
+-- =========================================================================
+-- Outer Joins
+-- =========================================================================
+
+-- LEFT OUTER JOIN between Student and Department:
+SELECT * FROM Student 
+LEFT OUTER JOIN Department ON Student.Dept_ID = Department.Dept_ID;
+
+-- All students including unmatched ones:
+SELECT Student.Name, Department.Dept_Name 
+FROM Student 
+LEFT JOIN Department ON Student.Dept_ID = Department.Dept_ID;
+
+-- RIGHT OUTER JOIN between Student and Department:
+SELECT * FROM Student 
+RIGHT OUTER JOIN Department ON Student.Dept_ID = Department.Dept_ID;
+
+-- All departments including those with no students:
+SELECT Student.Name, Department.Dept_Name 
+FROM Student 
+RIGHT JOIN Department ON Student.Dept_ID = Department.Dept_ID;
+
+-- Students not assigned to any department:
+SELECT Student.* 
+FROM Student 
+LEFT JOIN Department ON Student.Dept_ID = Department.Dept_ID 
+WHERE Department.Dept_ID IS NULL;
+
+-- Departments having no students:
+SELECT Department.* 
+FROM Department 
+LEFT JOIN Student ON Department.Dept_ID = Student.Dept_ID 
+WHERE Student.Student_ID IS NULL;
+
+-- FULL OUTER JOIN workaround using UNION:
+SELECT * FROM Student LEFT JOIN Department ON Student.Dept_ID = Department.Dept_ID 
+UNION 
+SELECT * FROM Student RIGHT JOIN Department ON Student.Dept_ID = Department.Dept_ID;
+
+
+-- =========================================================================
+-- Cross Join & Natural Join
+-- =========================================================================
+
+-- CROSS JOIN between Student and Course:
+SELECT * FROM Student CROSS JOIN Course;
+
+-- Calculate total combinations:
+SELECT COUNT(*) FROM Student CROSS JOIN Course;
+
+-- NATURAL JOIN:
+SELECT * FROM Student NATURAL JOIN Department;
+-- Note: NATURAL JOIN automatically joins tables using columns sharing the same name and datatype, 
+-- whereas INNER JOIN explicitly mandates the condition via the ON clause.
+
+
+-- =========================================================================
+-- Self Join
+-- =========================================================================
+
+-- SELF JOIN on Employee table (Employee-Manager relationship - Left Join):
+SELECT e.Emp_Name AS Employee, m.Emp_Name AS Manager 
+FROM Employee e 
+LEFT JOIN Employee m ON e.Manager_ID = m.Emp_ID;
+
+-- Display employees with managers using SELF JOIN (Inner Join):
+SELECT e.Emp_Name AS Employee, m.Emp_Name AS Manager 
+FROM Employee e 
+INNER JOIN Employee m ON e.Manager_ID = m.Emp_ID;
+
+
+-- =========================================================================
+-- Multi-Table Joins & Subqueries / Group By Reporting
+-- =========================================================================
+
+-- Join three tables (Student, Department, Course):
+SELECT Student.Name, Course.Course_Name, Department.Dept_Name 
+FROM Student 
+JOIN Department ON Student.Dept_ID = Department.Dept_ID 
+JOIN Course ON Student.Course_ID = Course.Course_ID;
+
+-- Student report names across multiple joins (using aliases):
+SELECT s.Name, c.Course_Name, d.Dept_Name 
+FROM Student s 
+JOIN Department d ON s.Dept_ID = d.Dept_ID 
+JOIN Course c ON s.Course_ID = c.Course_ID;
+
+-- Employees earning greater than department average:
+SELECT e.* 
+FROM Employee e 
+WHERE e.Salary > (SELECT AVG(sub.Salary) FROM Employee sub WHERE sub.Department = e.Department);
+
+-- Department having maximum number of students:
+SELECT d.Dept_Name 
+FROM Department d 
+JOIN Student s ON d.Dept_ID = s.Dept_ID 
+GROUP BY d.Dept_ID, d.Dept_Name 
+ORDER BY COUNT(s.Student_ID) DESC 
+LIMIT 1;
+
+-- Total number of students in each department:
+SELECT d.Dept_Name, COUNT(s.Student_ID) AS Total_Students 
+FROM Department d 
+LEFT JOIN Student s ON d.Dept_ID = s.Dept_ID 
+GROUP BY d.Dept_ID, d.Dept_Name;
+
+-- Number of students enrolled in each course:
+SELECT c.Course_Name, COUNT(s.Student_ID) AS Enrolled_Students 
+FROM Course c 
+LEFT JOIN Student s ON c.Course_ID = s.Course_ID 
+GROUP BY c.Course_ID, c.Course_Name;
+
+-- Complete reporting query using JOINs and GROUP BY:
+SELECT d.Dept_Name, c.Course_Name, COUNT(s.Student_ID) AS Total_Students 
+FROM Department d 
+LEFT JOIN Student s ON d.Dept_ID = s.Dept_ID 
+LEFT JOIN Course c ON s.Course_ID = c.Course_ID 
+GROUP BY d.Dept_Name, c.Course_Name;

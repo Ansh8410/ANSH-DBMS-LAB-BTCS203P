@@ -1,0 +1,112 @@
+-- =========================================================================
+-- Lab Sheet 4: SQL Operators
+-- =========================================================================
+
+USE CollegeDB;
+
+-- =========================================================================
+-- Arithmetic Operators
+-- =========================================================================
+
+-- Addition (+):
+SELECT 10 + 5;
+
+-- Subtraction (-):
+SELECT 10 - 5;
+
+-- Multiplication (*):
+SELECT 10 * 5;
+
+-- Division (/):
+SELECT 10 / 2;
+
+-- Calculate total amount from Product table:
+SELECT Price * Quantity AS Total_Amount FROM Product;
+
+
+-- =========================================================================
+-- Logical Operators
+-- =========================================================================
+
+-- AND operator:
+SELECT * FROM Student WHERE Age > 18 AND City = 'Delhi';
+
+-- OR operator:
+SELECT * FROM Student WHERE City = 'Delhi' OR City = 'Noida';
+
+-- NOT operator:
+SELECT * FROM Student WHERE NOT (City = 'Delhi');
+
+-- Course AND City condition:
+SELECT * FROM Student WHERE Course = 'Computer Science' AND City = 'Delhi';
+
+-- Departments (HR or IT):
+SELECT * FROM Employee WHERE Department = 'HR' OR Department = 'IT';
+
+
+-- =========================================================================
+-- Comparison Operators
+-- =========================================================================
+
+-- = operator:
+SELECT * FROM Student WHERE City = 'Delhi';
+
+-- > operator:
+SELECT * FROM Employee WHERE Salary > 50000;
+
+-- < operator:
+SELECT * FROM Student WHERE Age < 20;
+
+-- >= and <= operators:
+SELECT * FROM Employee WHERE Salary >= 30000 AND Salary <= 70000;
+
+-- != operator:
+SELECT * FROM Employee WHERE Department != 'HR';
+
+
+-- =========================================================================
+-- Special Operators
+-- =========================================================================
+
+-- BETWEEN operator:
+SELECT * FROM Employee WHERE Salary BETWEEN 30000 AND 60000;
+
+-- IN operator:
+SELECT * FROM Student WHERE City IN ('Delhi', 'Noida', 'Meerut');
+
+-- NOT IN operator:
+SELECT * FROM Student WHERE City NOT IN ('Delhi', 'Noida');
+
+-- LIKE operator:
+SELECT * FROM Student WHERE Name LIKE 'A%';
+
+-- IS NULL / IS NOT NULL operators:
+SELECT * FROM Student WHERE Email IS NULL;
+
+
+-- =========================================================================
+-- Set Operations
+-- =========================================================================
+
+-- UNION:
+SELECT City FROM Student UNION SELECT Location FROM Department;
+
+-- UNION ALL:
+SELECT City FROM Student UNION ALL SELECT Location FROM Department;
+
+-- INTERSECT:
+SELECT City FROM Student INTERSECT SELECT Location FROM Department;
+
+-- EXCEPT / MINUS:
+SELECT City FROM Student EXCEPT SELECT Location FROM Department;
+
+
+-- =========================================================================
+-- Multiple Operators Combined
+-- =========================================================================
+
+SELECT Emp_Name, Salary, Department 
+FROM Employee 
+WHERE (Salary + 5000) > 50000 
+  AND Department IN ('HR', 'IT') 
+  AND Emp_Name LIKE 'J%';

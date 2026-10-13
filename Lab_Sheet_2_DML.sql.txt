@@ -1,0 +1,94 @@
+-- =========================================================================
+-- Lab Sheet 2: DML Commands - INSERT, UPDATE and DELETE
+-- =========================================================================
+
+-- Optional: Ensure base database is used
+USE CollegeDB;
+
+-- 1. Insert one record into the Student table:
+INSERT INTO Student (Student_ID, Name, Age, Course, City) 
+VALUES (1, 'Alice Smith', 20, 'Computer Science', 'Meerut');
+
+-- 2. Insert five student records using separate INSERT statements:
+-- Note: Adjusting IDs to prevent primary key conflicts if run sequentially
+INSERT INTO Student VALUES (1, 'Alice', 20, 'CS', 'Meerut');
+INSERT INTO Student VALUES (2, 'Bob', 21, 'IT', 'Delhi');
+INSERT INTO Student VALUES (3, 'Charlie', 22, 'ECE', 'Noida');
+INSERT INTO Student VALUES (4, 'David', 19, 'ME', 'Meerut');
+INSERT INTO Student VALUES (5, 'Eve', 20, 'CE', 'Agra');
+
+-- 3. Insert multiple records into the Student table using a single statement:
+INSERT INTO Student VALUES 
+(6, 'Frank', 21, 'CS', 'Delhi'), 
+(7, 'Grace', 22, 'IT', 'Noida');
+
+-- 4. Insert records into the Employee table:
+INSERT INTO Employee VALUES (101, 'John Doe', 'HR', 50000, 'john@example.com');
+
+-- 5. Insert records into the Department table:
+INSERT INTO Department VALUES (1, 'HR', 'New York');
+
+-- 6. Insert records into the Product table:
+INSERT INTO Product VALUES (1, 'Laptop', 1200.00, 10);
+
+-- 7. Insert records into the Customer table:
+INSERT INTO Customer VALUES (1, 'Smith', 'smith@example.com', '1234567890');
+
+-- 8. Insert records into the Course table:
+INSERT INTO Course VALUES (1, 'Database Systems', '6 Months', 15000);
+
+-- 9. Insert a student record with values for all columns:
+INSERT INTO Student VALUES (1, 'Alice', 20, 'Computer Science', 'Meerut');
+
+-- 10. Insert a student record by specifying only selected columns:
+INSERT INTO Student (Student_ID, Name) VALUES (2, 'Bob');
+
+-- 11. Update the city of a particular student:
+UPDATE Student SET City = 'Delhi' WHERE Student_ID = 1;
+
+-- 12. Update the salary of a particular employee:
+UPDATE Employee SET Salary = 60000 WHERE Emp_ID = 101;
+
+-- 13. Increase the salary of all employees by 10%:
+UPDATE Employee SET Salary = Salary * 1.10;
+
+-- 14. Increase the price of all products by 5%:
+UPDATE Product SET Price = Price * 1.05;
+
+-- 15. Change the course of a particular student:
+UPDATE Student SET Course = 'Data Science' WHERE Student_ID = 1;
+
+-- 16. Update the department of an employee:
+UPDATE Employee SET Department = 'Finance' WHERE Emp_ID = 101;
+
+-- 17. Update the city of all students from Meerut to Delhi:
+UPDATE Student SET City = 'Delhi' WHERE City = 'Meerut';
+
+-- 18. Update the fees of a particular course:
+UPDATE Course SET Fees = 18000 WHERE Course_ID = 1;
+
+-- 19. Update multiple columns of a student simultaneously:
+UPDATE Student SET Age = 22, City = 'Noida' WHERE Student_ID = 1;
+
+-- 20. Delete a particular student record using Student_ID:
+DELETE FROM Student WHERE Student_ID = 1;
+
+-- 21. Delete all students belonging to a particular city:
+DELETE FROM Student WHERE City = 'Meerut';
+
+-- 22. Delete employees whose salary is below a specified amount:
+DELETE FROM Employee WHERE Salary < 30000;
+
+-- 23. Delete products whose quantity is zero:
+DELETE FROM Product WHERE Quantity = 0;
+
+-- 24. Delete records satisfying multiple conditions using AND/OR:
+DELETE FROM Employee WHERE Department = 'HR' AND Salary < 40000;
+
+-- 25. Perform complete INSERT, UPDATE, and DELETE sequence with verification:
+INSERT INTO Student VALUES (1, 'John', 20, 'CS', 'Delhi'); 
+SELECT * FROM Student; 
+UPDATE Student SET City = 'Noida' WHERE Student_ID = 1; 
+SELECT * FROM Student; 
+DELETE FROM Student WHERE Student_ID = 1; 
+SELECT * FROM Student;

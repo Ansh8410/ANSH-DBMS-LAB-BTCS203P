@@ -1,0 +1,106 @@
+-- =========================================================================
+-- Lab Sheet 3: SQL Functions
+-- =========================================================================
+
+USE CollegeDB;
+
+-- =========================================================================
+-- A. Number Functions
+-- =========================================================================
+
+-- Demonstrate ABS():
+SELECT ABS(-15);
+
+-- Demonstrate ROUND():
+SELECT ROUND(123.456, 2);
+
+-- Demonstrate CEIL() and FLOOR():
+SELECT CEIL(4.2), FLOOR(4.8);
+
+-- Demonstrate MOD():
+SELECT MOD(10, 3);
+
+-- Calculate rounded salary of employees:
+SELECT Emp_Name, ROUND(Salary, 2) AS Rounded_Salary FROM Employee;
+
+
+-- =========================================================================
+-- B. Aggregate Functions
+-- =========================================================================
+
+-- Total number of students using COUNT():
+SELECT COUNT(*) AS Total_Students FROM Student;
+
+-- Total salary of all employees using SUM():
+SELECT SUM(Salary) AS Total_Salary FROM Employee;
+
+-- Average salary using AVG():
+SELECT AVG(Salary) AS Average_Salary FROM Employee;
+
+-- Highest salary using MAX():
+SELECT MAX(Salary) AS Highest_Salary FROM Employee;
+
+-- Lowest salary using MIN():
+SELECT MIN(Salary) AS Lowest_Salary FROM Employee;
+
+
+-- =========================================================================
+-- C. Character Functions
+-- =========================================================================
+
+-- Demonstrate UPPER() on student names:
+SELECT UPPER(Name) FROM Student;
+
+-- Demonstrate LOWER() on student names:
+SELECT LOWER(Name) FROM Student;
+
+-- Demonstrate LENGTH() on student names:
+SELECT Name, LENGTH(Name) AS Name_Length FROM Student;
+
+-- Demonstrate CONCAT() using first and last names:
+-- (Note: Assumes First_Name and Last_Name columns exist, or uses string literals for demonstration)
+SELECT CONCAT('John', ' ', 'Doe') AS Full_Name;
+
+-- Demonstrate SUBSTRING():
+SELECT SUBSTRING(Name, 1, 3) FROM Student;
+
+
+-- =========================================================================
+-- D. Conversion Functions
+-- =========================================================================
+
+-- Convert a number into a character/string value:
+SELECT CAST(123 AS CHAR);
+
+-- Convert a string into a numeric value:
+SELECT CAST('123' AS SIGNED);
+
+-- Convert a date value into a different format:
+SELECT DATE_FORMAT(NOW(), '%d-%m-%Y');
+
+-- Demonstrate CAST():
+SELECT CAST('2026-06-06' AS DATE);
+
+-- Demonstrate CONVERT():
+SELECT CONVERT('123', SIGNED);
+
+
+-- =========================================================================
+-- E. Date Functions
+-- =========================================================================
+
+-- Display the current date:
+SELECT CURDATE();
+
+-- Extract the year, month, and day:
+SELECT YEAR(CURDATE()), MONTH(CURDATE()), DAY(CURDATE());
+
+-- Find the difference between two dates:
+SELECT DATEDIFF('2026-12-31', '2026-01-01');
+
+-- Add a specified number of days to a date:
+SELECT DATE_ADD(CURDATE(), INTERVAL 10 DAY);
+
+-- Display employees' joining dates in a required date format:
+-- (Note: Assumes Joining_Date column exists in Employee table)
+SELECT Emp_Name, DATE_FORMAT(Joining_Date, '%d/%m/%Y') AS Formatted_Date FROM Employee;
